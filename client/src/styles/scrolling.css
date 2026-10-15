@@ -1,0 +1,428 @@
+/* Scroll ownership: the application frame stays still; overflowing content panels scroll. */
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+body {
+  overscroll-behavior: none;
+}
+.app-shell {
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+}
+.sidebar ~ main {
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.topbar,
+.demo-strip,
+.app-footer {
+  flex-shrink: 0;
+}
+.main-content {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #bccabf transparent;
+  scrollbar-gutter: stable;
+}
+.main-content::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.main-content::-webkit-scrollbar-thumb {
+  background: #bccabf;
+  border-radius: 8px;
+}
+.main-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+.app-footer {
+  margin: 0;
+  padding: 11px 30px;
+  background: #f5f7f5;
+  border-top: 1px solid #e5ece5;
+}
+.sidebar {
+  height: 100dvh;
+  overflow: hidden;
+}
+.sidebar-brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+.sidebar-close {
+  display: none;
+}
+.sidebar > .workspace-select,
+.sidebar > .sidebar-create,
+.sidebar > .nav-section-title,
+.sidebar > nav:not(.projects-nav),
+.sidebar-bottom {
+  flex-shrink: 0;
+}
+.sidebar .projects-nav {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #c8d3ca transparent;
+  padding: 0 3px 0 0;
+}
+.sidebar .projects-nav::-webkit-scrollbar {
+  width: 3px;
+}
+.sidebar .projects-nav::-webkit-scrollbar-thumb {
+  background: #c8d3ca;
+  border-radius: 4px;
+}
+.sidebar-bottom {
+  margin-top: 12px;
+  padding-top: 0;
+}
+.sidebar-focus {
+  margin-top: 0;
+}
+.sidebar .profile {
+  padding-bottom: 14px;
+}
+.sidebar-backdrop {
+  display: none;
+}
+.project-board-layout {
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.page-board {
+  overflow: hidden;
+  scrollbar-gutter: auto;
+}
+.board-project-header {
+  flex-shrink: 0;
+}
+.board-project-header .view-toolbar {
+  margin-bottom: 16px;
+}
+.board-project-header .page-heading {
+  margin-bottom: 15px;
+}
+.board-project-header .project-meta {
+  margin-bottom: 15px;
+}
+.board-content {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+.kanban {
+  height: 100%;
+  min-height: 0;
+  grid-template-columns: repeat(5, minmax(205px, 1fr));
+  align-items: stretch;
+  overflow-y: hidden;
+  overflow-x: auto;
+  padding-bottom: 7px;
+  margin: 0;
+  scrollbar-width: thin;
+  scrollbar-color: #bccabf transparent;
+  overscroll-behavior-x: contain;
+}
+.kanban::-webkit-scrollbar {
+  height: 5px;
+}
+.kanban::-webkit-scrollbar-thumb {
+  background: #bccabf;
+  border-radius: 8px;
+}
+.kanban-column {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+}
+.column-heading {
+  flex-shrink: 0;
+  margin-bottom: 11px;
+  padding-left: 4px;
+}
+.column-body {
+  flex: 1;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #c3d0c6 transparent;
+  scrollbar-gutter: stable;
+}
+.column-body::-webkit-scrollbar {
+  width: 4px;
+}
+.column-body::-webkit-scrollbar-thumb {
+  background: #c3d0c6;
+  border-radius: 6px;
+}
+.column-body > * {
+  flex-shrink: 0;
+}
+.board-footer {
+  flex-shrink: 0;
+  padding-bottom: 0;
+  padding-top: 11px;
+}
+.board-content > .task-table {
+  height: 100%;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #bccabf transparent;
+}
+.board-content .task-row.table-head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.task-drawer {
+  height: calc(100dvh - 24px);
+  max-height: calc(100dvh - 24px);
+}
+.task-drawer > header,
+.drawer-save {
+  flex-shrink: 0;
+}
+.task-detail-scroll {
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: #bfd0c3 transparent;
+}
+.task-detail-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+.task-detail-scroll::-webkit-scrollbar-thumb {
+  background: #bfd0c3;
+  border-radius: 7px;
+}
+.modal:not(.task-drawer) {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  max-height: 90dvh;
+}
+.modal:not(.task-drawer) > header {
+  flex-shrink: 0;
+}
+.modal-content-scroll {
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #bfd0c3 transparent;
+  padding: 0 3px 0 0;
+}
+.modal-content-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+.modal-content-scroll::-webkit-scrollbar-thumb {
+  background: #bfd0c3;
+  border-radius: 6px;
+}
+.modal-content-scroll .modal-actions {
+  position: sticky;
+  bottom: 0;
+  background: #fff;
+  z-index: 2;
+  padding-bottom: 2px;
+}
+.auth-shell {
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+}
+.auth-story {
+  height: 100%;
+  min-height: 0;
+}
+.auth-form {
+  max-height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #bfd0c3 transparent;
+}
+.dashboard-activity {
+  max-height: 540px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #c8d6cb transparent;
+}
+.dashboard-activity > header {
+  position: sticky;
+  top: 0;
+  background: #f5f7f5;
+  z-index: 1;
+  padding-top: 2px;
+}
+.sidebar nav > button.active:before {
+  left: 0;
+  width: 2px;
+}
+.detail-tabs {
+  position: sticky;
+  top: -20px;
+  background: white;
+  z-index: 2;
+}
+.dashboard-profile {
+  flex-shrink: 0;
+}
+@media (max-height: 760px) {
+  .sidebar-focus {
+    display: none;
+  }
+  .sidebar-bottom {
+    margin-top: 8px;
+  }
+  .profile {
+    margin-top: 8px;
+  }
+  .sidebar .workspace-select {
+    margin-top: 20px;
+    margin-bottom: 12px;
+  }
+  .main-content {
+    padding-top: 20px;
+    padding-bottom: 18px;
+  }
+  .board-project-header .kicker {
+    margin-bottom: 7px;
+  }
+  .board-project-header .page-heading p {
+    margin-top: 6px;
+  }
+  .board-project-header .page-heading h1 {
+    font-size: 24px;
+  }
+  .board-project-header .heading-actions {
+    padding-top: 4px;
+  }
+  .board-project-header .project-meta {
+    font-size: 10px;
+  }
+}
+@media (max-width: 800px) {
+  .sidebar-close {
+    display: inline-flex;
+  }
+  .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: #1d352535;
+    backdrop-filter: blur(2px);
+    z-index: 9;
+  }
+  .app-footer {
+    padding-left: 18px;
+    padding-right: 18px;
+    font-size: 9px;
+  }
+  .main-content {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+  .kanban {
+    grid-template-columns: repeat(5, 225px);
+    padding-right: 0;
+    margin-right: 0;
+  }
+  .task-drawer {
+    height: calc(100dvh - 14px);
+    max-height: calc(100dvh - 14px);
+  }
+  .board-project-header .heading-actions {
+    margin-top: 7px;
+  }
+  .board-project-header .view-toolbar {
+    margin-bottom: 12px;
+  }
+  .board-project-header .toolbar-controls {
+    padding-bottom: 8px;
+  }
+  .board-project-header .project-meta {
+    margin-bottom: 9px;
+  }
+  .board-project-header .page-heading {
+    margin-bottom: 10px;
+  }
+  .dashboard-activity {
+    max-height: none;
+    overflow: visible;
+  }
+  .page-board .main-content {
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 1051px) {
+  .page-overview {
+    overflow: hidden;
+    scrollbar-gutter: auto;
+  }
+  .dashboard {
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .dashboard-main {
+    height: 100%;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: #bccabf transparent;
+    padding-right: 5px;
+  }
+  .dashboard-heading {
+    position: sticky;
+    top: -1px;
+    background: #f5f7f5;
+    z-index: 3;
+    padding: 2px 0 14px;
+    margin-bottom: 6px;
+  }
+  .dashboard-rail {
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .dashboard-activity {
+    flex: 1;
+    min-height: 0;
+    max-height: none;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #bccabf transparent;
+  }
+  .rail-note {
+    flex-shrink: 0;
+  }
+}

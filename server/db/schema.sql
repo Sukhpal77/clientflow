@@ -1,0 +1,17 @@
+CREATE TABLE IF NOT EXISTS users (id text PRIMARY KEY, name text NOT NULL, email text NOT NULL UNIQUE, password_hash text NOT NULL, created_at timestamptz NOT NULL DEFAULT now());
+CREATE TABLE IF NOT EXISTS sessions (token_hash text PRIMARY KEY, user_id text NOT NULL REFERENCES users(id) ON DELETE CASCADE, expires_at timestamptz NOT NULL);
+CREATE TABLE IF NOT EXISTS workspaces (id text PRIMARY KEY, name text NOT NULL, kind text NOT NULL CHECK (kind IN ('agency','personal')), owner_id text NOT NULL REFERENCES users(id), created_at timestamptz NOT NULL DEFAULT now());
+CREATE TABLE IF NOT EXISTS memberships (workspace_id text NOT NULL REFERENCES workspaces(id) ON DELETE CASCADE, user_id text NOT NULL REFERENCES users(id), role text NOT NULL CHECK (role IN ('owner','admin','member','viewer','client')), PRIMARY KEY(workspace_id,user_id));
+CREATE TABLE IF NOT EXISTS projects (id text PRIMARY KEY, workspace_id text NOT NULL REFERENCES workspaces(id) ON DELETE CASCADE, name text NOT NULL, client text NOT NULL DEFAULT '', description text NOT NULL DEFAULT '', color text NOT NULL DEFAULT '#6366f1', visibility text NOT NULL CHECK(visibility IN ('team','private')), due_date date, created_at timestamptz NOT NULL DEFAULT now());
+CREATE TABLE IF NOT EXISTS project_members (project_id text NOT NULL REFERENCES projects(id) ON DELETE CASCADE, user_id text NOT NULL REFERENCES users(id), PRIMARY KEY(project_id,user_id));
+CREATE TABLE IF NOT EXISTS tasks (id text PRIMARY KEY, project_id text NOT NULL REFERENCES projects(id) ON DELETE CASCADE, title text NOT NULL, description text NOT NULL DEFAULT '', status text NOT NULL CHECK(status IN ('Backlog','To do','In progress','In review','Done')), priority text NOT NULL CHECK(priority IN ('Low','Medium','High','Urgent')), assignee_id text REFERENCES users(id), due_date date, visibility text NOT NULL CHECK(visibility IN ('internal','client')), label text NOT NULL DEFAULT '', created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now());
+CREATE TABLE IF NOT EXISTS comments (id text PRIMARY KEY, task_id text NOT NULL REFERENCES tasks(id) ON DELETE CASCADE, user_id text NOT NULL REFERENCES users(id), body text NOT NULL, created_at timestamptz NOT NULL DEFAULT now());
+CREATE TABLE IF NOT EXISTS invitations (id text PRIMARY KEY, workspace_id text NOT NULL REFERENCES workspaces(id) ON DELETE CASCADE, email text NOT NULL, role text NOT NULL CHECK(role IN ('admin','member','viewer','client')), project_id text REFERENCES projects(id) ON DELETE CASCADE, token_hash text NOT NULL UNIQUE, expires_at timestamptz NOT NULL, accepted_at timestamptz);
+CREATE TABLE IF NOT EXISTS activity (id text PRIMARY KEY, workspace_id text NOT NULL REFERENCES workspaces(id) ON DELETE CASCADE, project_id text REFERENCES projects(id) ON DELETE CASCADE, user_id text NOT NULL REFERENCES users(id), message text NOT NULL, visibility text NOT NULL DEFAULT 'internal', created_at timestamptz NOT NULL DEFAULT now());
+CREATE INDEX IF NOT EXISTS tasks_project_idx ON tasks(project_id);
+CREATE INDEX IF NOT EXISTS memberships_user_idx ON memberships(user_id);
+CREATE INDEX IF NOT EXISTS activity_workspace_idx ON activity(workspace_id);
+ALTER TABLE tasks ADD COLUMN IF NOT EXISTS subtasks jsonb NOT NULL DEFAULT '[]'::jsonb;
+
+ALTER TABLE projects ADD COLUMN IF NOT EXISTS archived_at timestamptz;
+ALTER TABLE tasks ADD COLUMN IF NOT EXISTS revision integer NOT NULL DEFAULT 1;

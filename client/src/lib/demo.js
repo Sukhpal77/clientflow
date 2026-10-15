@@ -1,0 +1,286 @@
+export const people = [
+  { id: 'u1', name: 'Maya Chen', email: 'maya@studio.example', role: 'owner' },
+  { id: 'u2', name: 'Alex Morgan', email: 'alex@studio.example', role: 'member' },
+  { id: 'u3', name: 'Jordan Lee', email: 'jordan@client.example', role: 'client' },
+  { id: 'u4', name: 'Sam Rivera', email: 'sam@studio.example', role: 'viewer' },
+  { id: 'u5', name: 'Priya Shah', email: 'priya@studio.example', role: 'admin' },
+];
+export const initial = {
+  user: people[0],
+  workspaces: [
+    { id: 'w1', name: 'Forma Studio', kind: 'agency', role: 'owner', owner_id: 'u1' },
+    { id: 'w2', name: 'Personal workspace', kind: 'personal', role: 'owner', owner_id: 'u1' },
+  ],
+  projects: [
+    {
+      id: 'p1',
+      workspace_id: 'w1',
+      name: 'Brand & website',
+      client: 'Acme',
+      description: 'A fresh identity and digital home for Acme.',
+      color: '#6c5ce7',
+      visibility: 'team',
+      due_date: '2026-10-30',
+      member_ids: ['u1', 'u2', 'u3', 'u5'],
+    },
+    {
+      id: 'p2',
+      workspace_id: 'w1',
+      name: 'Fall campaign',
+      client: 'Orbit',
+      description: 'A considered campaign for the next chapter.',
+      color: '#e79650',
+      visibility: 'team',
+      due_date: '2026-11-12',
+      member_ids: ['u1', 'u2', 'u5'],
+    },
+    {
+      id: 'p3',
+      workspace_id: 'w1',
+      name: 'Product launch',
+      client: 'Lumina',
+      description: 'Bringing a new product to light.',
+      color: '#43977b',
+      visibility: 'private',
+      due_date: '2026-11-20',
+      member_ids: ['u1', 'u5'],
+    },
+    {
+      id: 'p4',
+      workspace_id: 'w2',
+      name: 'My plans',
+      client: '',
+      description: 'A little space for your own ideas.',
+      color: '#6c5ce7',
+      visibility: 'private',
+      member_ids: ['u1'],
+    },
+  ],
+  members: [
+    ...people.map((p) => ({ ...p, workspace_id: 'w1' })),
+    { ...people[0], workspace_id: 'w2' },
+  ],
+  invitations: [],
+  tasks: [
+    {
+      id: 't1',
+      project_id: 'p1',
+      title: 'Explore visual directions',
+      description: 'Collect references and develop two visual concepts for the brand.',
+      status: 'Backlog',
+      priority: 'Medium',
+      assignee_id: 'u1',
+      due_date: '2026-10-19',
+      visibility: 'internal',
+      label: 'Branding',
+    },
+    {
+      id: 't2',
+      project_id: 'p1',
+      title: 'Audit the current website',
+      description: 'Review navigation, content, and the key conversion paths.',
+      status: 'Backlog',
+      priority: 'Low',
+      assignee_id: 'u2',
+      due_date: '2026-10-20',
+      visibility: 'internal',
+      label: 'Research',
+    },
+    {
+      id: 't3',
+      project_id: 'p1',
+      title: 'Map the customer journey',
+      description: 'Document how visitors discover, explore, and contact Acme.',
+      status: 'To do',
+      priority: 'High',
+      assignee_id: 'u2',
+      due_date: '2026-10-16',
+      visibility: 'internal',
+      label: 'Strategy',
+    },
+    {
+      id: 't4',
+      project_id: 'p1',
+      title: 'Write homepage copy',
+      description: 'A clear introduction, a confident promise, and one strong call to action.',
+      status: 'To do',
+      priority: 'Medium',
+      assignee_id: 'u1',
+      due_date: '2026-10-21',
+      visibility: 'client',
+      label: 'Content',
+    },
+    {
+      id: 't5',
+      project_id: 'p1',
+      title: 'Design the homepage',
+      description:
+        'Build on the approved wireframes. Explore the hero, services, and case study sections.',
+      status: 'In progress',
+      priority: 'High',
+      assignee_id: 'u1',
+      due_date: '2026-10-16',
+      visibility: 'client',
+      label: 'Design',
+      cover: 'design',
+    },
+    {
+      id: 't6',
+      project_id: 'p1',
+      title: 'Build the component library',
+      description: 'Create reusable buttons, form fields, and navigation components.',
+      status: 'In progress',
+      priority: 'Medium',
+      assignee_id: 'u2',
+      due_date: '2026-10-23',
+      visibility: 'internal',
+      label: 'Development',
+    },
+    {
+      id: 't7',
+      project_id: 'p1',
+      title: 'Review the brand concept',
+      description: 'Share feedback on the proposed identity and color palette.',
+      status: 'In review',
+      priority: 'High',
+      assignee_id: 'u3',
+      due_date: '2026-10-15',
+      visibility: 'client',
+      label: 'Client review',
+      comments: [
+        {
+          id: 'c1',
+          name: 'Maya Chen',
+          body: 'The first concept is ready for your feedback.',
+          created_at: '2026-10-14T09:00:00Z',
+        },
+      ],
+    },
+    {
+      id: 't8',
+      project_id: 'p1',
+      title: 'Approve the sitemap',
+      description: 'Confirm the proposed pages before design starts.',
+      status: 'Done',
+      priority: 'Medium',
+      assignee_id: 'u3',
+      due_date: '2026-10-12',
+      visibility: 'client',
+      label: 'Strategy',
+    },
+    {
+      id: 't9',
+      project_id: 'p1',
+      title: 'Kickoff & discovery',
+      description: 'Align on goals, timeline, and success measures.',
+      status: 'Done',
+      priority: 'Low',
+      assignee_id: 'u1',
+      due_date: '2026-10-10',
+      visibility: 'client',
+      label: 'Planning',
+    },
+    {
+      id: 't10',
+      project_id: 'p2',
+      title: 'Develop campaign messaging',
+      description: 'Define the story and the audience.',
+      status: 'In progress',
+      priority: 'High',
+      assignee_id: 'u2',
+      due_date: '2026-10-25',
+      visibility: 'internal',
+      label: 'Content',
+    },
+    {
+      id: 't11',
+      project_id: 'p2',
+      title: 'Prepare the launch assets',
+      description: 'Draft social posts and email creative.',
+      status: 'To do',
+      priority: 'Medium',
+      assignee_id: 'u1',
+      due_date: '2026-11-02',
+      visibility: 'client',
+      label: 'Design',
+    },
+    {
+      id: 't12',
+      project_id: 'p3',
+      title: 'Finalize the launch plan',
+      description: 'Confirm deliverables and internal responsibilities.',
+      status: 'To do',
+      priority: 'Urgent',
+      assignee_id: 'u5',
+      due_date: '2026-11-05',
+      visibility: 'internal',
+      label: 'Planning',
+    },
+    {
+      id: 't13',
+      project_id: 'p4',
+      title: 'Explore new illustration ideas',
+      description: 'Set aside time to make something new.',
+      status: 'To do',
+      priority: 'Low',
+      assignee_id: 'u1',
+      due_date: '2026-10-22',
+      visibility: 'internal',
+      label: 'Personal',
+    },
+  ].map((t) => ({ ...t, comments: t.comments || [] })),
+  activity: [
+    {
+      id: 'a1',
+      workspace_id: 'w1',
+      project_id: 'p1',
+      name: 'Maya Chen',
+      message: 'Moved Design the homepage to In progress',
+      visibility: 'client',
+      created_at: '2026-10-14T08:00:00Z',
+    },
+    {
+      id: 'a2',
+      workspace_id: 'w1',
+      project_id: 'p1',
+      name: 'Jordan Lee',
+      message: 'Completed Approve the sitemap',
+      visibility: 'client',
+      created_at: '2026-10-13T10:00:00Z',
+    },
+    {
+      id: 'a3',
+      workspace_id: 'w1',
+      project_id: 'p2',
+      name: 'Alex Morgan',
+      message: 'Created Develop campaign messaging',
+      visibility: 'internal',
+      created_at: '2026-10-13T07:00:00Z',
+    },
+  ],
+};
+export function loadDemo() {
+  try {
+    return JSON.parse(localStorage.getItem('clientflow-demo-v1')) || structuredClone(initial);
+  } catch {
+    return structuredClone(initial);
+  }
+}
+export function visibleProjects(data, wid) {
+  const ws = data.workspaces.find((w) => w.id === wid);
+  if (!ws) return [];
+  const role =
+    ws.kind === 'personal' && ws.owner_id === data.user.id
+      ? 'owner'
+      : data.members.find((m) => m.workspace_id === wid && m.id === data.user.id)?.role;
+  if (!role) return [];
+  return data.projects.filter(
+    (p) =>
+      p.workspace_id === wid &&
+      !p.archived_at &&
+      (ws.kind !== 'personal' || ws.owner_id === data.user.id) &&
+      (['owner', 'admin'].includes(role) ||
+        p.member_ids?.includes(data.user.id) ||
+        (role !== 'client' && p.visibility === 'team')),
+  );
+}
